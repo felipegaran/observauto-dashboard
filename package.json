@@ -1,11 +1,5 @@
 {
   "name": "observauto-dashboard",
   "version": "1.0.0",
-  "description": "Dashboard para Observauto",
-  "main": "index.html",
-  "scripts": {
-    "start": "echo 'No start script required'"
-  },
-  "author": "Observauto",
-  "license": "UNLICENSED"
+  "description": "Dashboard para Observauto"
 }
