@@ -1,4 +1,4 @@
-const SCRIPT_VERSION = '17.3'; // Versión final corregida
+const SCRIPT_VERSION = '18.0'; // Versión de reinicio
 
 const ICONS = {
     consolidado: `<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M3 13h6V3H3v10zm0 8h6v-6H3v6zm8 0h10V11H11v10zm0-18v6h10V3H11z"/></svg>`,
@@ -10,8 +10,8 @@ const ICONS = {
     threads: `<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M10.96 3.63A1.5 1.5 0 0 1 12 5.1v13.8a1.5 1.5 0 0 1-3 0V5.1a1.5 1.5 0 0 1 1.96-1.47M15.5 8.16a1.5 1.5 0 0 1 1.04.42 1.5 1.5 0 0 1 0 2.12 1.5 1.5 0 0 1-2.56.22 3.51 3.51 0 0 0-4.95 0 1.5 1.5 0 0 1-2.56-.22 1.5 1.5 0 0 1 0-2.12 1.5 1.5 0 0 1 1.04-.42 3.51 3.51 0 0 0 4.95 0m-1.54 8.23c.8-.8.8-2.07 0-2.87a3.51 3.51 0 0 0-4.95 0c-.8.8-.8 2.07 0 2.87a3.51 3.51 0 0 0 4.95 0M4.14 17.5A9.51 9.51 0 0 1 3 12a9.51 9.51 0 0 1 1.14-4.5 1.5 1.5 0 1 1 2.6 1.5A6.5 6.5 0 0 0 6 12a6.5 6.5 0 0 0 .74 3 1.5 1.5 0 0 1-2.6 1.5m15.72 0a1.5 1.5 0 0 1-2.6-1.5 6.5 6.5 0 0 0 .74-3 6.5 6.5 0 0 0-.74-3 1.5 1.5 0 1 1 2.6-1.5A9.51 9.51 0 0 1 21 12a9.51 9.51 0 0 1-1.14 4.5z"/></svg>`,
     linkedin: `<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m-1.39 9.94v-8.37H8.27v8.37H5.49z"/></svg>`,
     spotify: `<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m4.14 14.28c-.23.36-.7.47-1.05.23-2.9-1.77-6.52-2.17-10.89-1.2a.66.66 0 0 1-.72-.64.66.66 0 0 1 .64-.72c4.73-1.04 8.74-.6 11.93 1.32.35.23.46.7.25 1.01M17.5 12.3c-.27.43-.84.57-1.27.3-3.2-1.95-8.04-2.52-12.2-1.37a.78.78 0 0 1-.87-.77c0-.43.37-.78.8-.86C8.8 8.6 14 9.23 17.58 11.4c.43.27.57.84.32 1.27m.1-3.66c-3.76-2.27-9.94-2.48-13.84-1.37a.95.95 0 0 1-1.04-.92.95.95 0 0 1 .92-1.04c4.3-.92 10.9-1.13 15.15 1.4.5.3.66.93.36 1.43c-.3.5-.93.66-1.43.36z"/></svg>`,
-    reactions: { like: `...`, love: `...`, comment: `...` }
-}
+    reactions: { /* ... (este objeto no cambia) ... */ }
+};
 
 const NAV_ITEMS = [
     { id: 'consolidado', label: 'Consolidado', icon: ICONS.consolidado },
@@ -31,27 +31,23 @@ const quickSelect = $('#rangeQuick');
 const compareWrap = $('#compareWrap');
 const [dateStartA, dateEndA, dateStartB, dateEndB] = [$('#dateStartA'), $('#dateEndA'), $('#dateStartB'), $('#dateEndB')];
 const subtitle = $('#subtitle');
-const API_BASE_URL = 'https://observauto-dashboard.vercel.app/api';
 
-async function fetchData(startDate, endDate, compareStartDate = null, compareEndDate = null) {
-    const params = new URLSearchParams({ startDate, endDate });
-    if (compareStartDate && compareEndDate) {
-        params.append('compareStartDate', compareStartDate);
-        params.append('compareEndDate', compareEndDate);
-    }
-    const url = `${API_BASE_URL}/data?${params.toString()}`;
-    console.log(`Fetching data from: ${url}`);
+// --- CÓDIGO SIMPLIFICADO ---
+// Esta función ahora lee el archivo data.json local
+async function fetchData() {
     try {
-        const response = await fetch(url);
+        const response = await fetch('data.json');
         if (!response.ok) {
             throw new Error(`Error en la red: ${response.statusText}`);
         }
-        return await response.json();
+        const data = await response.json();
+        return data;
     } catch (error) {
         console.error("Falló la obtención de datos:", error);
         throw error;
     }
 }
+// --- FIN DEL CÓDIGO SIMPLIFICADO ---
 
 function createNav() {
     const nav = $('#sidebar-nav');
@@ -62,27 +58,20 @@ function createNav() {
     `).join('');
 }
 
-function bindNav() { /* ... no changes here ... */ }
+function bindNav() { /* ... (sin cambios) ... */ }
 const fmt = (n) => n ? n.toLocaleString('es-ES') : '0';
 const fmtd = (d) => new Date(d + 'T00:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
-const getWindows = (mode, dates) => { /* ... no changes here ... */ };
+const getWindows = (mode, dates) => { /* ... (sin cambios) ... */ };
 
 function handleDateChange() {
     const isCompare = quickSelect.value === 'compare';
     compareWrap.style.display = isCompare ? 'grid' : 'none';
-    if (!isCompare) {
-        const windows = getWindows(quickSelect.value, {});
-        STATE.dates.startA = windows.periodA.start;
-        STATE.dates.endA = windows.periodA.end;
-        dateStartA.value = STATE.dates.startA;
-        dateEndA.value = STATE.dates.endA;
-    }
-    render();
+    render(); // Simplificado: solo llamamos a render
 };
 
-function createCard({ label, value, delta, periodA, periodB, deltaType = 'percentage' }) { /* ... no changes here ... */ }
-function createChart(containerId, { type, labels, datasets }) { /* ... no changes here ... */ }
-function createTopContentTable(title, data, isWebsite = false) { /* ... no changes here ... */ }
+function createCard({ label, value, delta, periodA, periodB, deltaType = 'percentage' }) { /* ... (sin cambios) ... */ }
+function createChart(containerId, { type, labels, datasets }) { /* ... (sin cambios) ... */ }
+function createTopContentTable(title, data, isWebsite = false) { /* ... (sin cambios) ... */ }
 
 async function render() {
     console.log(`Renderizando vista: ${STATE.view}`);
@@ -93,18 +82,9 @@ async function render() {
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     $(`#nav-${STATE.view}`).classList.add('active');
 
-    const isCompare = quickSelect.value === 'compare';
-    if(isCompare) {
-        STATE.dates.startA = dateStartA.value;
-        STATE.dates.endA = dateEndA.value;
-        STATE.dates.startB = dateStartB.value;
-        STATE.dates.endB = dateEndB.value;
-    }
-    
-    const windows = getWindows(quickSelect.value, STATE.dates);
-    
     try {
-        const data = await fetchData(windows.periodA.start, windows.periodA.end, windows.periodB.start, windows.periodB.end);
+        // Obtenemos los datos del archivo local
+        const data = await fetchData();
         STATE.data = data;
 
         if (!STATE.data) throw new Error("No se recibieron datos.");
@@ -116,24 +96,22 @@ async function render() {
         switch (STATE.view) {
             case 'consolidado': renderConsolidado(); break;
             case 'website': renderWebsite(); break;
+            // Aquí irían los otros renderizadores
         }
     
-        const subtitleText = isCompare
-            ? `Comparando ${fmtd(windows.periodA.start)}-${fmtd(windows.periodA.end)} (A) con ${fmtd(windows.periodB.start)}-${fmtd(windows.periodB.end)} (B)`
-            : `Mostrando datos de ${fmtd(windows.periodA.start)} a ${fmtd(windows.periodA.end)}`;
-        subtitle.textContent = subtitleText;
+        subtitle.textContent = `Mostrando datos de ejemplo (actualizado el ${new Date(STATE.data.updated_at).toLocaleDateString()})`;
 
     } catch (error) {
         console.error("Error al renderizar:", error);
-        subtitle.textContent = 'Error al cargar los datos. Intenta de nuevo.';
+        subtitle.textContent = 'Error al cargar los datos.';
         $(`#view-${STATE.view}`).innerHTML = `<div class="card"><p style="color:var(--red); text-align:center;">${error.message}</p></div>`;
     } finally {
         document.body.style.cursor = 'default';
     }
 }
 
-function renderConsolidado() { /* ... no changes here ... */ }
-function renderWebsite() { /* ... no changes here ... */ }
+function renderConsolidado() { /* ... (sin cambios) ... */ }
+function renderWebsite() { /* ... (sin cambios) ... */ }
 
 function load() {
     console.log(`Dashboard Observauto v${SCRIPT_VERSION}`);
