@@ -697,35 +697,22 @@ footer {
 }
 
 /* --- INICIO DE CORRECCIÓN PARA LAYOUT DE FECHAS EN MÓVIL (PUNTO DE CORTE 440PX) --- */
-/*
-  OBJETIVO:
-  Sobrescribir el comportamiento por defecto en pantallas de 440px o menos
-  para lograr el diseño de dos columnas.
-*/
 @media (max-width: 440px) {
-    #compareWrap {
-        /* Vuelve a establecer la grilla de 2 columnas */
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        flex-direction: row; /* Asegura la dirección horizontal */
-        gap: 8px;
-    }
+  #compareWrap {
+    /* Anula la regla de 480px y vuelve a poner los periodos A y B en fila */
+    flex-direction: row; 
+  }
 
-    #compareWrap fieldset {
-        /* Mantiene los elementos internos apilados verticalmente (Inicio y Fin) */
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-    }
+  #compareWrap fieldset {
+    /* Mantiene los labels "Inicio" y "Fin" apilados verticalmente dentro de cada periodo */
+    flex-direction: column;
+  }
 
-    #compareWrap fieldset label {
-       /* Esta es la regla clave que se había perdido:
-          hace que la etiqueta (ej: "Inicio:") y el input
-          se pongan uno al lado del otro. */
-       display: flex;
-       flex-direction: row;
-       justify-content: space-between;
-       align-items: center;
-    }
+  #compareWrap fieldset label {
+    /* Pone la etiqueta de texto y el input en la misma línea */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 /* --- FIN DE CORRECCIÓN --- */
