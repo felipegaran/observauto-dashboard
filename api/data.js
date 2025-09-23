@@ -1,27 +1,28 @@
-import path from 'path';
-import { promises as fs } from 'fs';
+const fs = require('fs');
+const path = require('path');
 
-export default async function handler(request, response) {
-  // --- Cabeceras de CORS ---
-  response.setHeader('Access-Control-Allow-Origin', '*');
-  response.setHeader('Access-Control-Allow-Methods', 'GET');
-  response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+module.exports = (req, res) => {
+  // Permitir la conexión desde tu sitio
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (request.method === 'OPTIONS') {
-    return response.status(200).end();
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
   }
-
+  
   try {
-    // La ruta correcta y más fiable en Vercel
-    const jsonFilePath = path.join(process.cwd(), 'api', 'data.json');
-    const fileContents = await fs.readFile(jsonFilePath, 'utf8');
-    const data = JSON.parse(fileContents);
+    // La ruta correcta al archivo data.json en Vercel
+    const filePath = path.join(process.cwd(), 'api', 'data.json');
     
-    // Devolvemos la respuesta
-    return response.status(200).json(data);
-
+    // Leer el archivo
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    
+    // Devolver los datos
+    const data = JSON.parse(fileContents);
+    res.status(200).json(data);
   } catch (error) {
-    console.error(error);
-    return response.status(500).json({ error: 'No se pudo leer el archivo de datos.' });
+    console.error('Error al leer el archivo:', error);
+    res.status(500).json({ message: 'Error en el servidor', error: error.message });
   }
-}
+};
