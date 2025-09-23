@@ -95,6 +95,13 @@ header {
     opacity: 1;
 }
 
+/* --- INICIO DE LA CORRECCIÓN --- */
+/* Esta nueva regla asegura que el icono SVG también se ponga blanco */
+.sidebar a.active svg {
+    color: #fff;
+}
+/* --- FIN DE LA CORRECCIÓN --- */
+
 .sidebar .label {
     opacity: 0;
     width: 0;
@@ -545,6 +552,7 @@ footer {
     width: 100%;
 }
 
+
 @media (min-width:1024px) {
     .app.expanded {
         grid-template-columns: 240px 1fr
@@ -696,7 +704,6 @@ footer {
     }
 }
 
-/* --- INICIO DE LA MODIFICACIÓN FINAL Y DEFINITIVA --- */
 @media (max-width: 480px) {
     .wrap {
         padding: 12px;
@@ -712,15 +719,12 @@ footer {
         gap: 12px;
     }
     
-    /* 1. Mantiene A y B lado a lado */
     #compareWrap.compare-full {
         grid-template-columns: 1fr 1fr;
     }
     
-    /* 2. Apila Inicio y Fin DENTRO de cada periodo */
     #compareWrap.compare-full .periodo {
         grid-template-columns: 1fr;
         gap: 8px;
     }
 }
-/* --- FIN DE LA MODIFICACIÓN FINAL Y DEFINITIVA --- */
