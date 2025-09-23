@@ -42,7 +42,6 @@ const subtitle = $('#subtitle');
 // Esta función ahora lee el archivo data.json local, como al principio.
 async function fetchData() {
     try {
-        // La ruta es relativa al index.html, por eso solo es 'data.json'
         const response = await fetch('data.json');
         if (!response.ok) {
             throw new Error(`Error en la red: ${response.statusText}`);
