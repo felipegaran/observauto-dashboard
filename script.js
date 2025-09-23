@@ -43,7 +43,7 @@ const dateStartA = $('#dateStartA'),
     dateEndA = $('#dateEndA');
 const dateStartB = $('#dateStartB'),
     dateEndB = $('#dateEndB');
-const dataUrl = `data.json?ts=${Date.now()}`;
+const dataUrl = `/api/data`;
 const chartColors = {
     A: { blue: '#1D4ED8', red: '#B91C1C', green: '#14532D', purple: '#6B21A8', teal: '#0F766E', pink: '#BE185D', sky: '#0369A1' },
     B: { blue: '#60A5FA', red: '#F87171', green: '#4ADE80', purple: '#C084FC', teal: '#5EEAD4', pink: '#F472B6', sky: '#7DD3FC' }
