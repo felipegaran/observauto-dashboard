@@ -1,4 +1,4 @@
-const SCRIPT_VERSION = '18.0'; // Versión de reinicio a lo que funcionaba
+const SCRIPT_VERSION = '19.0'; // Versión final sincronizada
 
 const ICONS = {
     consolidado: `<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M3 13h6V3H3v10zm0 8h6v-6H3v6zm8 0h10V11H11v10zm0-18v6h10V3H11z"/></svg>`,
@@ -38,27 +38,23 @@ const compareWrap = $('#compareWrap');
 const [dateStartA, dateEndA, dateStartB, dateEndB] = [$('#dateStartA'), $('#dateEndA'), $('#dateStartB'), $('#dateEndB')];
 const subtitle = $('#subtitle');
 
-// --- CÓDIGO SIMPLIFICADO ---
-// Esta función ahora lee el archivo data.json local, como al principio.
 async function fetchData() {
     try {
         const response = await fetch('data.json');
         if (!response.ok) {
-            throw new Error(`Error en la red: ${response.statusText}`);
+            throw new Error(`Error en la red: ${response.status}`);
         }
-        const data = await response.json();
-        return data;
+        return await response.json();
     } catch (error) {
         console.error("Falló la obtención de datos:", error);
         throw error;
     }
 }
-// --- FIN DEL CÓDIGO SIMPLIFICADO ---
 
 function createNav() {
     const nav = $('#sidebar-nav');
     nav.innerHTML = NAV_ITEMS.map(item => `
-        <a href="#" id="nav-${item.id}" class="nav-item ${item.id === STATE.view ? 'active' : ''}" title="${item.label}">
+        <a href="#" id="nav-${item.id}" class="nav-item ${item.id === 'consolidado' ? 'active' : ''}" title="${item.label}">
             ${item.icon} <span class="label">${item.label}</span>
         </a>
     `).join('');
@@ -69,6 +65,8 @@ function bindNav() {
         $(`#nav-${item.id}`).addEventListener('click', (e) => {
             e.preventDefault();
             STATE.view = item.id;
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            e.currentTarget.classList.add('active');
             render();
         });
     });
@@ -93,56 +91,41 @@ function bindNav() {
     const app = $('#app');
     const overlay = $('#overlay');
 
-    menuToggle.addEventListener('click', () => {
-        document.body.classList.toggle('mobile-menu-open');
-    });
-
-    overlay.addEventListener('click', () => {
-        document.body.classList.remove('mobile-menu-open');
-    });
+    menuToggle.addEventListener('click', () => document.body.classList.toggle('mobile-menu-open'));
+    overlay.addEventListener('click', () => document.body.classList.remove('mobile-menu-open'));
 
     $('#sidebar').addEventListener('mouseenter', () => {
-        if (window.innerWidth > 1024) {
-            app.classList.add('expanded');
-        }
+        if (window.innerWidth > 1024) app.classList.add('expanded');
     });
-
     $('#sidebar').addEventListener('mouseleave', () => {
-        if (window.innerWidth > 1024) {
-            app.classList.remove('expanded');
-        }
+        if (window.innerWidth > 1024) app.classList.remove('expanded');
     });
 }
 
 const fmt = (n) => n ? n.toLocaleString('es-ES') : '0';
 const fmtd = (d) => new Date(d + 'T00:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
 
-const getWindows = (mode, dates) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const endDateA = dates.endA ? new Date(dates.endA + 'T00:00:00') : new Date(today);
-    let startDateA, days;
-
-    if (mode === 'compare') {
-        startDateA = new Date(dates.startA + 'T00:00:00');
-        const endDateB = new Date(dates.endB + 'T00:00:00');
-        const startDateB = new Date(dates.startB + 'T00:00:00');
+const getWindows = () => {
+    const isCompare = quickSelect.value === 'compare';
+    if (isCompare) {
         return {
-            periodA: { start: startDateA.toISOString().slice(0, 10), end: endDateA.toISOString().slice(0, 10) },
-            periodB: { start: startDateB.toISOString().slice(0, 10), end: endDateB.toISOString().slice(0, 10) }
+            periodA: { start: dateStartA.value, end: dateEndA.value },
+            periodB: { start: dateStartB.value, end: dateEndB.value }
         };
     } else {
-        days = parseInt(mode);
-        startDateA = new Date(endDateA);
+        const days = parseInt(quickSelect.value);
+        const endDateA = new Date();
+        const startDateA = new Date();
         startDateA.setDate(endDateA.getDate() - (days - 1));
+        
         const endDateB = new Date(startDateA);
         endDateB.setDate(startDateA.getDate() - 1);
         const startDateB = new Date(endDateB);
         startDateB.setDate(endDateB.getDate() - (days - 1));
+
         return {
-            periodA: { start: startDateA.toISOString().slice(0, 10), end: endDateA.toISOString().slice(0, 10) },
-            periodB: { start: startDateB.toISOString().slice(0, 10), end: endDateB.toISOString().slice(0, 10) }
+            periodA: { start: startDateA.toISOString().slice(0,10), end: endDateA.toISOString().slice(0,10) },
+            periodB: { start: startDateB.toISOString().slice(0,10), end: endDateB.toISOString().slice(0,10) }
         };
     }
 };
@@ -150,29 +133,25 @@ const getWindows = (mode, dates) => {
 function handleDateChange() {
     const isCompare = quickSelect.value === 'compare';
     compareWrap.style.display = isCompare ? 'grid' : 'none';
-    
     if (!isCompare) {
-        const windows = getWindows(quickSelect.value, {});
-        STATE.dates.startA = windows.periodA.start;
-        STATE.dates.endA = windows.periodA.end;
-        dateStartA.value = STATE.dates.startA;
-        dateEndA.value = STATE.dates.endA;
+        const windows = getWindows();
+        dateStartA.value = windows.periodA.start;
+        dateEndA.value = windows.periodA.end;
+        dateStartB.value = windows.periodB.start;
+        dateEndB.value = windows.periodB.end;
     }
     render();
 };
 
-function createCard({ label, value, delta, periodA, periodB, deltaType = 'percentage' }) {
+function createCard({ label, value, delta, periodA, periodB }) {
     const isCompare = quickSelect.value === 'compare';
     const deltaSign = delta > 0 ? '+' : '';
-    const deltaClass = delta > 0 ? 'green' : (delta < 0 ? 'red' : 'grey');
-    const deltaFormatted = deltaType === 'percentage'
-        ? `${deltaSign}${delta.toFixed(1)}%`
-        : `${deltaSign}${fmt(delta)}`;
+    const deltaClass = delta > 0 ? 'green' : (delta < 0 ? 'red' : '');
+    const deltaFormatted = `${deltaSign}${delta.toFixed(1)}%`;
     
     const simpleLayout = `
         <div class="kpi-value-simple">${value}</div>
-        <div class="kpi-delta-simple ${deltaClass}">${deltaFormatted}</div>
-    `;
+        <div class="kpi-delta-simple" style="color:${deltaClass === 'green' ? '#16A34A' : '#DC2626'}">${deltaFormatted}</div>`;
 
     const compareLayout = `
         <div class="kpi-compare-layout">
@@ -186,7 +165,7 @@ function createCard({ label, value, delta, periodA, periodB, deltaType = 'percen
                     <span class="value">${fmt(periodB)}</span>
                 </div>
             </div>
-            <div class="kpi-compare-delta ${deltaClass}">${deltaFormatted}</div>
+            <div class="kpi-compare-delta" style="color:${deltaClass === 'green' ? '#16A34A' : '#DC2626'}">${deltaFormatted}</div>
         </div>`;
 
     return `<div class="card kpi">
@@ -197,6 +176,7 @@ function createCard({ label, value, delta, periodA, periodB, deltaType = 'percen
 
 function createChart(containerId, { type, labels, datasets }) {
     const container = $(`#${containerId}`);
+    if (!container) return;
     container.innerHTML = `<div class="chartbox"><canvas></canvas></div>`;
     const ctx = container.querySelector('canvas').getContext('2d');
     
@@ -204,14 +184,7 @@ function createChart(containerId, { type, labels, datasets }) {
         type: type,
         data: {
             labels: labels,
-            datasets: datasets.map(ds => ({
-                ...ds,
-                borderColor: ds.color,
-                backgroundColor: ds.color + '33',
-                tension: 0.4,
-                pointRadius: 2,
-                borderWidth: 2,
-            }))
+            datasets: datasets.map(ds => ({ ...ds, tension: 0.4, pointRadius: 2, borderWidth: 2 }))
         },
         options: {
             responsive: true,
@@ -227,19 +200,16 @@ function createChart(containerId, { type, labels, datasets }) {
 
 function createTopContentTable(title, data, isWebsite = false) {
     const headers = isWebsite
-        ? ['Página', 'Fuente', 'Visitas', 'Duración Media', '', '']
+        ? ['Página', 'Fuente', 'Visitas', 'Duración Media']
         : ['Publicación', 'Red', 'Alcance / Vistas', 'Reacciones', 'Compartidos', 'Fecha'];
 
     const bodyHTML = data && data.length > 0 ? data.map(p => {
         const postText = p.text || p.title;
-        
         const reactionsHTML = !isWebsite ? `
             <div class="post-reactions">
                 <span class="reaction-item">${ICONS.reactions.like} ${fmt(p.likes)}</span>
-                ${p.love > 0 ? `<span class="reaction-item">${ICONS.reactions.love} ${fmt(p.love)}</span>`: ''}
                 <span class="reaction-item">${ICONS.reactions.comment} ${fmt(p.comments)}</span>
             </div>` : '';
-
         return `<tr>
                     <td>
                         <div class="post-cell">
@@ -250,114 +220,88 @@ function createTopContentTable(title, data, isWebsite = false) {
                             </div>
                         </div>
                     </td>
-                    <td>${isWebsite ? p.source : p.type || p.network}</td>
+                    <td>${isWebsite ? p.source : p.network}</td>
                     <td>${fmt(p.reach || p.views)}</td>
                     <td>${isWebsite ? p.avg_duration : fmt(p.total_reactions)}</td>
-                    <td>${isWebsite ? '' : fmt(p.shares)}</td>
-                    <td>${isWebsite ? '' : new Date(p.created_at + 'T00:00:00').toLocaleString('es-ES', {day:'2-digit', month:'2-digit', year:'numeric'})}</td>
+                    ${!isWebsite ? `<td>${fmt(p.shares)}</td>` : ''}
+                    ${!isWebsite ? `<td>${new Date(p.created_at + 'T00:00:00').toLocaleDateString('es-ES', {day:'2-digit', month:'2-digit', year:'numeric'})}</td>` : ''}
                 </tr>`
-    }).join('') : `<tr><td colspan="${headers.length}" style="text-align:center; color: var(--muted); padding: 24px;">No hay datos de contenido para este periodo.</td></tr>`;
+    }).join('') : `<tr><td colspan="${headers.length}" style="text-align:center; color: var(--muted); padding: 24px;">No hay datos.</td></tr>`;
     
-    return `<div class="card"><h3 class="card-title">${title}</h3><div class="table-scroll-wrapper"><table class="top-content-table"><thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${bodyHTML}</tbody></table></div></div>`;
+    return `<div class="card"><h3 class="card-title">${title}</h3><div class="table-scroll-wrapper"><table class="top-content-table"><thead><tr>${headers.map(h => h ? `<th>${h}</th>` : '').join('')}</tr></thead><tbody>${bodyHTML}</tbody></table></div></div>`;
 }
 
 async function render() {
-    console.log(`Renderizando vista: ${STATE.view}`);
     document.body.style.cursor = 'wait';
     subtitle.textContent = 'Cargando datos...';
     
-    document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    $(`#nav-${STATE.view}`).classList.add('active');
-
-    const isCompare = quickSelect.value === 'compare';
-    if(isCompare) {
-        STATE.dates.startA = dateStartA.value;
-        STATE.dates.endA = dateEndA.value;
-        STATE.dates.startB = dateStartB.value;
-        STATE.dates.endB = dateEndB.value;
-    }
-    
-    const windows = getWindows(quickSelect.value, STATE.dates);
-    
     try {
-        const data = await fetchData();
-        STATE.data = data;
-
-        if (!STATE.data) throw new Error("No se recibieron datos.");
-
+        if (!STATE.data) STATE.data = await fetchData();
+        const data = STATE.data;
+        
+        const windows = getWindows();
+        
         const currentView = $(`#view-${STATE.view}`);
+        document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
         currentView.style.display = 'grid';
-        currentView.innerHTML = '';
-    
+        currentView.innerHTML = ''; 
+
         switch (STATE.view) {
-            case 'consolidado': renderConsolidado(); break;
-            case 'website': renderWebsite(); break;
+            case 'consolidado': renderConsolidado(data, windows); break;
+            case 'website': renderWebsite(data, windows); break;
         }
-    
-        const subtitleText = isCompare
-            ? `Comparando ${fmtd(windows.periodA.start)}-${fmtd(windows.periodA.end)} (A) con ${fmtd(windows.periodB.start)}-${fmtd(windows.periodB.end)} (B)`
+
+        const subtitleText = quickSelect.value === 'compare'
+            ? `Comparando ${fmtd(windows.periodA.start)}-${fmtd(windows.periodA.end)} con ${fmtd(windows.periodB.start)}-${fmtd(windows.periodB.end)}`
             : `Mostrando datos de ${fmtd(windows.periodA.start)} a ${fmtd(windows.periodA.end)}`;
-        subtitle.textContent = subtitleText;
+        subtitle.textContent = `${subtitleText} (Actualizado: ${new Date(data.updated_at).toLocaleDateString()})`;
 
     } catch (error) {
         console.error("Error al renderizar:", error);
         subtitle.textContent = 'Error al cargar los datos. Intenta de nuevo.';
-        $(`#view-${STATE.view}`).innerHTML = `<div class="card"><p style="color:var(--red); text-align:center;">${error.message}</p></div>`;
+        $(`#view-${STATE.view}`).innerHTML = `<div class="card"><p style="color:red; text-align:center;">${error.message}</p></div>`;
     } finally {
         document.body.style.cursor = 'default';
     }
 }
 
-function renderConsolidado() {
+function renderConsolidado(data, windows) {
     const view = $('#view-consolidado');
-    view.innerHTML = `
-        <div class="card card-dark">
-            <div class="card-dark-header">
-                <strong>Quick Insights</strong>
-                <span class="badge">Basado en Periodo A</span>
-            </div>
-            <ul>
-                <li>El tráfico web muestra una tendencia positiva.</li>
-                <li>Instagram sigue siendo la red con mayor alcance.</li>
-                <li>El contenido en YouTube generó nuevas visualizaciones.</li>
-            </ul>
+    const { website_bench, instagram, youtube, top_content } = data;
+
+    const kpisHTML = `
+        <div class="kpis">
+            ${createCard(website_bench.sessions)}
+            ${createCard(instagram.reach)}
+            ${createCard(youtube.views)}
         </div>
-    ` + createTopContentTable('Contenido Destacado General', STATE.data.top_content.all, false);
+    `;
+    view.innerHTML = kpisHTML + createTopContentTable('Contenido Destacado', top_content.all);
 }
 
-function renderWebsite() {
+function renderWebsite(data, windows) {
     const view = $('#view-website');
-    const { sessions, users, pageviews } = STATE.data.website_bench;
-    const { timeseries } = STATE.data;
+    const { website_bench, timeseries } = data;
+    const { sessions, users, pageviews } = website_bench;
     
     const kpisHTML = `
         <div class="kpis">
-            ${createCard({label: "Sesiones", ...sessions})}
-            ${createCard({label: "Usuarios", ...users})}
-            ${createCard({label: "Páginas Vistas", ...pageviews})}
+            ${createCard(sessions)}
+            ${createCard(users)}
+            ${createCard(pageviews)}
         </div>
     `;
-
-    view.innerHTML = kpisHTML;
-    
-    const chartContainer = document.createElement('div');
-    chartContainer.className = 'card';
-    chartContainer.innerHTML = '<h3>Sesiones y Usuarios a lo largo del tiempo</h3><div id="website-chart-container"></div>';
-    view.appendChild(chartContainer);
+    view.innerHTML = kpisHTML + `<div class="card"><div id="website-chart-container"></div></div>` + createTopContentTable('Páginas más visitadas', top_content.website, true);
 
     createChart('website-chart-container', {
         type: 'line',
         labels: timeseries.web.map(d => fmtd(d.date)),
         datasets: [
-            { label: 'Sesiones', data: timeseries.web.map(d => d.sessions), color: '#213D72' },
-            { label: 'Usuarios', data: timeseries.web.map(d => d.users), color: '#E41B13' }
+            { label: 'Sesiones', data: timeseries.web.map(d => d.sessions), borderColor: '#213D72', backgroundColor: '#213D7233' },
+            { label: 'Usuarios', data: timeseries.web.map(d => d.users), borderColor: '#E41B13', backgroundColor: '#E41B1333' }
         ]
     });
-
-    view.innerHTML += createTopContentTable('Páginas más vistas y fuentes de tráfico', STATE.data.top_content.website, true);
 }
-
 
 function load() {
     console.log(`Dashboard Observauto v${SCRIPT_VERSION}`);
