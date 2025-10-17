@@ -1,103 +1,128 @@
 {
-  "updated_at": "2025-10-16T22:50:00.000000",
-  "kpis": {
-    "gsc_ctr": 1.12,
-    "avg_time_on_page": "00:00:24",
-    "total_followers": 5400,
-    "total_impressions": 187577,
-    "web_users": 8300,
-    "total_clicks_search": 790,
-    "total_clicks_shortlinks": 2751
+  "updated_at": "2025-08-29T12:00:00.000000",
+  "kpis": { 
+    "gsc_ctr": 7.5, 
+    "avg_time_on_page": "00:02:15" 
   },
   "timeseries": {
-    "search_performance": [
-      { "date": "2025-10-07", "clicks": 12, "impressions": 601 },
-      { "date": "2025-10-06", "clicks": 7, "impressions": 525 },
-      { "date": "2025-10-05", "clicks": 5, "impressions": 514 },
-      { "date": "2025-10-04", "clicks": 9, "impressions": 561 },
-      { "date": "2025-10-03", "clicks": 4, "impressions": 551 },
-      { "date": "2025-10-02", "clicks": 6, "impressions": 619 },
-      { "date": "2025-10-01", "clicks": 6, "impressions": 594 }
-    ]
-  },
-  "top_traffic_sources": [
-    { "source": "Búsqueda Orgánica", "percentage": 46.4 },
-    { "source": "Directo", "percentage": 34.3 },
-    { "source": "Referidos", "percentage": 8.6 }
-  ],
-  "top_countries_by_sessions": [
-    { "country": "Colombia", "users": 2858 },
-    { "country": "Estados Unidos", "users": 1976 },
-    { "country": "España", "users": 339 }
-  ],
-  "top_pages": [
-    { "page": "/nissan-x-trail...", "clicks": 83, "impressions": 6676 },
-    { "page": "/kia-sportage-2026...", "clicks": 77, "impressions": 3820 },
-    { "page": "/ (Homepage)", "clicks": 63, "impressions": 844 }
-  ],
-  "top_queries": [
-    { "query": "observauto", "clicks": 35, "impressions": 48 },
-    { "query": "consumo nissan xtrail e power", "clicks": 4, "impressions": 109 },
-    { "query": "spark euv 2025 precio colombia", "clicks": 4, "impressions": 86 }
-  ],
-  "devices": {
-    "web_analytics": [
-      { "device": "Escritorio", "percentage": 52.2 },
-      { "device": "Móvil", "percentage": 46.3 }
+    "web": [
+      {"date":"2025-08-20","sessions":900,"users":700,"pageviews":1600},
+      {"date":"2025-08-21","sessions":920,"users":710,"pageviews":1625},
+      {"date":"2025-08-22","sessions":940,"users":720,"pageviews":1650},
+      {"date":"2025-08-23","sessions":960,"users":730,"pageviews":1675},
+      {"date":"2025-08-24","sessions":980,"users":740,"pageviews":1700},
+      {"date":"2025-08-25","sessions":1000,"users":750,"pageviews":1725},
+      {"date":"2025-08-26","sessions":1020,"users":760,"pageviews":1750},
+      {"date":"2025-08-27","sessions":1040,"users":770,"pageviews":1775},
+      {"date":"2025-08-28","sessions":1060,"users":780,"pageviews":1800}
     ],
-    "search_console": [
-      { "device": "Móvil", "percentage": 58.0 },
-      { "device": "Escritorio", "percentage": 41.0 }
+    "instagram": [
+      {"date":"2025-08-20","reach":1300,"impressions":2000,"followers_gained":5,"interactions":180},
+      {"date":"2025-08-21","reach":1350,"impressions":2050,"followers_gained":7,"interactions":190},
+      {"date":"2025-08-22","reach":1400,"impressions":2100,"followers_gained":8,"interactions":200},
+      {"date":"2025-08-23","reach":1450,"impressions":2150,"followers_gained":9,"interactions":210},
+      {"date":"2025-08-24","reach":1500,"impressions":2200,"followers_gained":10,"interactions":220},
+      {"date":"2025-08-25","reach":1550,"impressions":2250,"followers_gained":11,"interactions":230},
+      {"date":"2025-08-26","reach":1600,"impressions":2300,"followers_gained":12,"interactions":240},
+      {"date":"2025-08-27","reach":1650,"impressions":2350,"followers_gained":13,"interactions":250},
+      {"date":"2025-08-28","reach":1700,"impressions":2400,"followers_gained":14,"interactions":260}
+    ],
+    "youtube": [
+      {"date":"2025-08-20","views":2400,"watch_time_hours":140,"subscribers_gained":5},
+      {"date":"2025-08-21","views":2450,"watch_time_hours":145,"subscribers_gained":6},
+      {"date":"2025-08-22","views":2500,"watch_time_hours":150,"subscribers_gained":7},
+      {"date":"2025-08-23","views":2550,"watch_time_hours":152,"subscribers_gained":7},
+      {"date":"2025-08-24","views":2600,"watch_time_hours":155,"subscribers_gained":8},
+      {"date":"2025-08-25","views":2650,"watch_time_hours":158,"subscribers_gained":8},
+      {"date":"2025-08-26","views":2700,"watch_time_hours":160,"subscribers_gained":9},
+      {"date":"2025-08-27","views":2750,"watch_time_hours":163,"subscribers_gained":10},
+      {"date":"2025-08-28","views":2800,"watch_time_hours":166,"subscribers_gained":10}
+    ],
+    "tiktok": [
+      {"date":"2025-08-20","views":4700,"likes":700,"followers_gained":20},
+      {"date":"2025-08-21","views":4750,"likes":720,"followers_gained":22},
+      {"date":"2025-08-22","views":4800,"likes":740,"followers_gained":24},
+      {"date":"2025-08-23","views":4850,"likes":760,"followers_gained":26},
+      {"date":"2025-08-24","views":4900,"likes":780,"followers_gained":28},
+      {"date":"2025-08-25","views":4950,"likes":800,"followers_gained":30},
+      {"date":"2025-08-26","views":5000,"likes":820,"followers_gained":32},
+      {"date":"2025-08-27","views":5050,"likes":840,"followers_gained":34},
+      {"date":"2025-08-28","views":5100,"likes":860,"followers_gained":36}
+    ],
+    "x": [
+      {"date":"2025-08-20","impressions":2000,"engagements":100,"followers_gained":4},
+      {"date":"2025-08-21","impressions":2050,"engagements":105,"followers_gained":5},
+      {"date":"2025-08-22","impressions":2100,"engagements":110,"followers_gained":6},
+      {"date":"2025-08-23","impressions":2150,"engagements":115,"followers_gained":6},
+      {"date":"2025-08-24","impressions":2200,"engagements":120,"followers_gained":7},
+      {"date":"2025-08-25","impressions":2250,"engagements":125,"followers_gained":7},
+      {"date":"2025-08-26","impressions":2300,"engagements":130,"followers_gained":8},
+      {"date":"2025-08-27","impressions":2350,"engagements":135,"followers_gained":8},
+      {"date":"2025-08-28","impressions":2400,"engagements":140,"followers_gained":9}
+    ],
+    "linkedin": [
+      {"date":"2025-08-20","impressions":1400,"clicks":50,"followers_gained":3},
+      {"date":"2025-08-21","impressions":1450,"clicks":52,"followers_gained":3},
+      {"date":"2025-08-22","impressions":1500,"clicks":55,"followers_gained":4},
+      {"date":"2025-08-23","impressions":1550,"clicks":58,"followers_gained":4},
+      {"date":"2025-08-24","impressions":1600,"clicks":60,"followers_gained":5},
+      {"date":"2025-08-25","impressions":1650,"clicks":63,"followers_gained":5},
+      {"date":"2025-08-26","impressions":1700,"clicks":65,"followers_gained":6},
+      {"date":"2025-08-27","impressions":1750,"clicks":68,"followers_gained":6},
+      {"date":"2025-08-28","impressions":1800,"clicks":70,"followers_gained":7}
+    ],
+    "threads": [
+      {"date":"2025-08-20","impressions":1700,"engagements":85,"followers_gained":2},
+      {"date":"2025-08-21","impressions":1750,"engagements":88,"followers_gained":3},
+      {"date":"2025-08-22","impressions":1800,"engagements":90,"followers_gained":3},
+      {"date":"2025-08-23","impressions":1850,"engagements":95,"followers_gained":3},
+      {"date":"2025-08-24","impressions":1900,"engagements":100,"followers_gained":4},
+      {"date":"2025-08-25","impressions":1950,"engagements":105,"followers_gained":4},
+      {"date":"2025-08-26","impressions":2000,"engagements":110,"followers_gained":5},
+      {"date":"2025-08-27","impressions":2050,"engagements":115,"followers_gained":5},
+      {"date":"2025-08-28","impressions":2100,"engagements":120,"followers_gained":5}
+    ],
+    "spotify": [
+      {"date":"2025-08-20","streams":500,"listeners":280,"followers_gained":4},
+      {"date":"2025-08-21","streams":520,"listeners":290,"followers_gained":4},
+      {"date":"2025-08-22","streams":540,"listeners":300,"followers_gained":5},
+      {"date":"2025-08-23","streams":560,"listeners":310,"followers_gained":5},
+      {"date":"2025-08-24","streams":580,"listeners":320,"followers_gained":6},
+      {"date":"2025-08-25","streams":600,"listeners":330,"followers_gained":6},
+      {"date":"2025-08-26","streams":620,"listeners":340,"followers_gained":7},
+      {"date":"2025-08-27","streams":640,"listeners":350,"followers_gained":7},
+      {"date":"2025-08-28","streams":660,"listeners":360,"followers_gained":8}
     ]
   },
-  "social_media": {
-    "linkedin": {
-      "user": "@observAuto",
-      "followers": 3448,
-      "impressions": 52360,
-      "top_posts": [
-        { "text": "Este es un post de ejemplo para LinkedIn. El dato real no está en los archivos.", "type": "Artículo", "reach": 0, "total_reactions": 0, "shares": 0, "created_at": "2025-10-16", "likes": 0, "love": 0, "comments": 0, "thumb": "https://placehold.co/80x80/0077b5/ffffff?text=Li" }
-      ]
-    },
-    "instagram": {
-      "user": "@observauto",
-      "followers": 812,
-      "impressions": 4000,
-       "top_posts": [
-        { "text": "Post de ejemplo para Instagram. Dato no disponible.", "type": "Imagen", "reach": 0, "total_reactions": 0, "shares": 0, "created_at": "2025-10-16", "likes": 0, "love": 0, "comments": 0, "thumb": "https://placehold.co/80x80/E4405F/ffffff?text=Ig" }
-      ]
-    },
-    "twitter": {
-      "user": "@observauto",
-      "followers": 540,
-      "impressions": 44400,
-       "top_posts": [
-        { "text": "Post de ejemplo para X/Twitter. Dato no disponible.", "type": "Tweet", "reach": 0, "total_reactions": 0, "shares": 0, "created_at": "2025-10-16", "likes": 0, "love": 0, "comments": 0, "thumb": "https://placehold.co/80x80/1DA1F2/ffffff?text=X" }
-      ]
-    },
-    "tiktok": {
-      "user": "@observauto",
-      "followers": 315,
-      "impressions": 11100,
-       "top_posts": [
-        { "text": "Post de ejemplo para TikTok. Dato no disponible.", "type": "Video", "reach": 0, "total_reactions": 0, "shares": 0, "created_at": "2025-10-16", "likes": 0, "love": 0, "comments": 0, "thumb": "https://placehold.co/80x80/000000/ffffff?text=Tk" }
-      ]
-    },
-    "facebook": {
-      "user": "@Observauto",
-      "followers": 149,
-      "impressions": 4444,
-       "top_posts": [
-        { "text": "Post de ejemplo para Facebook. Dato no disponible.", "type": "Post", "reach": 0, "total_reactions": 0, "shares": 0, "created_at": "2025-10-16", "likes": 0, "love": 0, "comments": 0, "thumb": "https://placehold.co/80x80/1877F2/ffffff?text=Fb" }
-      ]
-    },
-    "threads": {
-      "user": "@observauto",
-      "followers": 136,
-      "impressions": 573,
-       "top_posts": [
-        { "text": "Post de ejemplo para Threads. Dato no disponible.", "type": "Post", "reach": 0, "total_reactions": 0, "shares": 0, "created_at": "2025-10-16", "likes": 0, "love": 0, "comments": 0, "thumb": "https://placehold.co/80x80/000000/ffffff?text=Th" }
-      ]
-    }
+  "mix": {
+    "social_distribution": { "instagram": 40, "youtube": 20, "tiktok": 18, "x": 12, "linkedin": 10 },
+    "traffic_sources": { "Direct": 50, "Organic Search": 30, "Organic Social": 15, "Referral": 5 }
   },
-
+  "social_bench": {
+    "instagram": { "user": "@observAuto", "followers": 17000, "top_posts": [
+      { "text": "Un showroom que parece un museo 🎨🚗", "type": "álbum", "reach": 9000, "total_reactions": 160, "shares": 25, "created_at": "2025-08-15", "likes": 150, "love": 8, "comments": 2, "thumb": "https://picsum.photos/seed/igdemo/80/80" }
+    ]},
+    "youtube": { "user": "@observAuto", "followers": 8600, "top_posts": [
+      { "text": "Probamos el motor turbo más esperado 🔥", "type": "Video", "views": 13000, "total_reactions": 900, "shares": 100, "created_at": "2025-08-18", "likes": 880, "love": 0, "comments": 20, "thumb": "https://picsum.photos/seed/ytdemo/80/80" }
+    ]},
+    "tiktok": { "user": "@observAuto", "followers": 25500, "top_posts": [
+      { "text": "POV: el rugido de un V12 a 9000rpm 🚀", "type": "Reel", "views": 160000, "total_reactions": 19000, "shares": 1300, "created_at": "2025-08-19", "likes": 18800, "love": 0, "comments": 200, "thumb": "https://picsum.photos/seed/ttdemo/80/80" }
+    ]},
+    "x": { "user": "@observAuto", "followers": 5300, "top_posts": [
+      { "text": "BREAKING: Nuevo hiperdeportivo eléctrico confirmado ⚡", "type": "Tweet", "reach": 26000, "total_reactions": 360, "shares": 160, "created_at": "2025-08-21", "likes": 330, "love": 0, "comments": 30, "thumb": "https://picsum.photos/seed/xdemo/80/80" }
+    ]},
+    "linkedin": { "user": "@observAuto", "followers": 3200, "top_posts": [
+      { "text": "Informe: el boom de los EV en Latinoamérica 🌎⚡", "type": "Artículo", "reach": 6000, "total_reactions": 95, "shares": 35, "created_at": "2025-08-20", "likes": 90, "love": 0, "comments": 5, "thumb": "https://picsum.photos/seed/lidemo/80/80" }
+    ]},
+    "threads": { "user": "@observAuto", "followers": 2200, "top_posts": [
+      { "text": "¿Torque o caballos de fuerza? 🏎️🔥", "type": "Post", "reach": 4600, "total_reactions": 260, "shares": 28, "created_at": "2025-08-22", "likes": 250, "love": 0, "comments": 10, "thumb": "https://picsum.photos/seed/thdemo/80/80" }
+    ]},
+    "spotify": { "user": "Observauto Podcast", "followers": 1600, "top_posts": [
+      { "text": "Ep. 20: Historia de los supercars con invitado especial", "type": "Podcast", "views": 2300, "total_reactions": 55, "shares": 20, "created_at": "2025-08-23", "likes": 55, "love": 0, "comments": 0, "thumb": "https://picsum.photos/seed/spdemo/80/80" }
+    ]}
+  },
+  "website_bench": { "top_pages": [
+    {"title": "ObservAuto - ¡Observemos más autos Juntos!", "url": "/final/", "pageviews": 400, "sessions": 340, "avg_duration": "1min 20s"},
+    {"title": "Review Kia Sportage 2026 en Colombia 🚗🔥", "url": "/final/kia-sportage-2026-colombia-precio/", "pageviews": 120, "sessions": 110, "avg_duration": "3min 50s"}
+  ]}
+}
